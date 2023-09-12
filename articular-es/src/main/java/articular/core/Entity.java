@@ -32,63 +32,20 @@
 package articular.core;
 
 import articular.core.component.Component;
-import java.util.Map;
 
 /**
- * Represents a game entity with some {@link Component}s.
- *
- * <p>
- * A game entity is considered also a game component object,
- * this fact provides a pattern to implement sub-entities.
- * </p>
- *
- * <p>
- * A Map of components must be provided via a DI pattern.
- * </p>
- *
- * @param <I> the input type of the game loop
  * @author pavl_g
  */
-public interface Entity<I> extends Component<I> {
+public final class Entity implements Component {
 
-    /**
-     * A Map of game entity components to be provided.
-     *
-     * <p>
-     * Override and provide a map of components for this entity via the DI pattern.
-     * </p>
-     *
-     * @return a map of components by their identifiers (not null)
-     */
-    Map<? super Number, Component<I>> getComponents();
+    protected final String name;
 
-    /**
-     * Retrieves the name of this entity.
-     *
-     * <p>
-     * Override and provide a name for this entity via the DI pattern.
-     * </p>
-     *
-     * @return the name of this entity (not null)
-     */
-    String getName();
-
-    /**
-     * Retrieves a specific game entity component by its identifier.
-     *
-     * @param id the game entity component identifier
-     * @return a game entity component or null if it doesn't exist (nullable)
-     */
-    default Component<I> getComponent(Component.Id id) {
-        return getComponents().get(id);
+    public Entity(String name) {
+        this.name = name;
     }
 
-    /**
-     * Updates this game entity through updating its components.
-     *
-     * @param input the input to the game loop pattern
-     */
-    default void update(I input) {
-        getComponents().forEach((id, component) -> component.update(input));
+    @Override
+    public Id getId() {
+        return new Component.Id((name.hashCode() >>> 16) ^ name.hashCode());
     }
 }

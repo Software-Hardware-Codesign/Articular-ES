@@ -29,8 +29,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * Provides the core Game Entity interface {@link articular.core.Entity}
- * and its base implementation {@link articular.util.StandardGameEntity}.
- */
-package articular.core;
+package articular.core.system;
+
+import articular.core.Type;
+import articular.util.EntityComponentManager;
+
+public interface SystemEntitiesUpdater<I> extends SystemController {
+    void update(Type.EntityMap entityMap, EntityComponentManager<I> entityComponentManager, I input);
+}

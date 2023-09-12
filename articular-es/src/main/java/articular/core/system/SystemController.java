@@ -29,8 +29,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package articular.core.system;
+
 /**
- * Provides the core Game Entity interface {@link articular.core.Entity}
- * and its base implementation {@link articular.util.StandardGameEntity}.
+ * The base system interface that provides different
+ * types of interactions.
+ *
+ * @author pavl_g
+ * @see ComponentsUpdater for an entity component-component interactions in a single system
+ * @see SystemsUpdater for system-system interactions
+ * @see SystemEntitiesUpdater for entity-entity interactions in a single system
  */
-package articular.core;
+public interface SystemController {
+
+    /**
+     * Retrieves the name of the associated system.
+     *
+     * @return the name in string format
+     */
+    String getAssociatedSystem();
+}

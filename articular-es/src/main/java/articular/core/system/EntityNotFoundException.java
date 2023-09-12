@@ -29,8 +29,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package articular.core.system;
+
+import articular.core.Entity;
+
 /**
- * Provides the core Game Entity interface {@link articular.core.Entity}
- * and its base implementation {@link articular.util.StandardGameEntity}.
+ * Provides a recoverable breakpoint that is thrown if a {@link articular.core.Type.ComponentMap}
+ * under a system is not found.
+ *
+ * @author pavl_g
  */
-package articular.core;
+public class EntityNotFoundException extends RuntimeException {
+
+    /**
+     * Thrown to indicate that a entity (aka. ComponentMap) under
+     * a system is not found.
+     *
+     * @param entity the not found entity
+     */
+    public EntityNotFoundException(Entity entity) {
+        super("Entity " + entity.getId().intValue() + " is not found!");
+    }
+}

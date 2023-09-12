@@ -31,22 +31,13 @@
 
 package articular.core.component;
 
-import articular.core.Entity;
-
 /**
- * Provides a base implementation to the game entity {@link Component},
- * in which each component will have a game entity instance and an identifier.
+ * Provides a standard implementation to the game entity {@link Component},
+ * in which a component will have an identifier and should have immutable data.
  *
- * @param <I> the input type to the game loop pattern
  * @author pavl_g
  */
-public abstract class BaseGameComponent<I> implements Component<I> {
-
-    /**
-     * The enclosing game entity that will update
-     * this component.
-     */
-    protected final Entity<I> entity;
+public class StandardGameComponent implements Component {
 
     /**
      * The component identifier that maps this component
@@ -57,22 +48,14 @@ public abstract class BaseGameComponent<I> implements Component<I> {
     /**
      * Instantiates a new game entity component object.
      *
-     * @param entity the entity enclosing this game component
-     * @param componentId the game component identifier to map this component
-     *                    to its game entity
+     * @param componentId the game component identifier
      */
-    public BaseGameComponent(Entity<I> entity, Component.Id componentId) {
-        this.entity = entity;
+    public StandardGameComponent(Component.Id componentId) {
         this.componentId = componentId;
     }
 
     @Override
-    public Entity<I> getEntity() {
-        return entity;
-    }
-
-    @Override
-    public Id getId() {
+    public final Id getId() {
         return componentId;
     }
 }

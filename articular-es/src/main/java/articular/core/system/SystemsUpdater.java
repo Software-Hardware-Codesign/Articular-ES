@@ -29,65 +29,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package articular.jme;
+package articular.core.system;
 
-import articular.util.ConcurrentEntityComponentManager;
+import articular.core.Type;
 import articular.util.EntityComponentManager;
-import com.jme3.app.Application;
-import com.jme3.app.state.BaseAppState;
 
 /**
- * Binds the {@link EntityComponentManager} to a jMonkeyEngine {@link BaseAppState}
- * in a game environment.
+ * A higher-order implementation of the {@link SystemController} that
+ * provides a method for system-based interactions.
  *
+ * @param <I> the type of the game loop input
  * @author pavl_g
  */
-public class GameEntityManager extends BaseAppState {
+public interface SystemsUpdater<I> extends SystemController {
 
     /**
-     * The ECS manager controlling the game entities and their components.
-     */
-    protected EntityComponentManager<Float> entityComponentManager =
-                                                new ConcurrentEntityComponentManager<>();
-
-    @Override
-    protected void initialize(Application app) {
-
-    }
-
-    @Override
-    protected void cleanup(Application app) {
-        entityComponentManager = null;
-    }
-
-    @Override
-    protected void onEnable() {
-
-    }
-
-    @Override
-    protected void onDisable() {
-
-    }
-
-    /**
-     * Updates the game entities, their sub-entities and their game components.
+     * Dispatched each frame to provide system-based interactions
+     * for the user applications.
      *
-     * @param tpf the time taken to render a frame (time-per-frame) in a game loop
+     * @param systemMap the systems map
+     * @param entityComponentManager the associated entity-component manager
+     * @param input the input from the game loop
      */
-    @Override
-    public void update(float tpf) {
-        getEntityComponentManager().update(tpf);
-    }
-
-    /**
-     * Retrieves the game entity-component manager used for
-     * loading, unloading and updating {@link articular.core.Entity}s
-     * and their {@link articular.core.component.Component}s.
-     *
-     * @return the game entity-component manager for this state
-     */
-    public EntityComponentManager<Float> getEntityComponentManager() {
-        return entityComponentManager;
-    }
+    void update(Type.SystemMap systemMap, EntityComponentManager<I> entityComponentManager, I input);
 }

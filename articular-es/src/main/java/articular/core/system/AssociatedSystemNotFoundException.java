@@ -29,54 +29,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package articular.core;
-
-import articular.core.component.Component;
-import articular.util.EntityComponentManager;
-import java.util.Map;
+package articular.core.system;
 
 /**
- * Defines a base implementation for the {@link Entity}, the container
- * object of the articular-es API.
+ * Provides a recoverable breakpoint
  *
- * @param <I> the type of the input to the game loop pattern
+ * @author pavl_g
  */
-public abstract class BaseGameEntity<I> implements Entity<I> {
-
-    /**
-     * The name for this entity utilized by the
-     * {@link EntityComponentManager}.
-     */
-    protected String name;
-
-    /**
-     * A map for the Game entity components registered to this entity.
-     */
-    protected final Map<? super Number, Component<I>> components;
-
-    /**
-     * Instantiates a game entity with a name and game entity components.
-     *
-     * <p>
-     * Subclasses overriding the default constructor should
-     * provide a call to this constructor or an acceptable alternative.
-     * </p>
-     *
-     * @param name the name of this game entity
-     * @param components a map of game entity components
-     */
-    public BaseGameEntity(String name, Map<? super Number, Component<I>> components) {
-        this.name = name;
-        this.components = components;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Map<? super Number, Component<I>> getComponents() {
-        return components;
+public class AssociatedSystemNotFoundException extends RuntimeException {
+    public AssociatedSystemNotFoundException(SystemController systemController) {
+        super("Associated system " + systemController.getAssociatedSystem() + " isn't found!");
     }
 }

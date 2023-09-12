@@ -29,8 +29,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * Provides the core Game Entity interface {@link articular.core.Entity}
- * and its base implementation {@link articular.util.StandardGameEntity}.
- */
-package articular.core;
+package articular.throwable;
+
+import articular.core.component.Component;
+
+public class ComponentIdNotUniqueException extends RuntimeException {
+
+    /**
+     * Instantiates a component uniqueness exception with an identifier object.
+     *
+     * @param identifier the component identifier
+     */
+    public ComponentIdNotUniqueException(Component.Id identifier) {
+        super("Component Identifier " + identifier + " already exists in this identity!");
+    }
+}

@@ -33,43 +33,37 @@ package articular.core.component;
 
 import articular.core.Entity;
 import articular.util.EntityComponentManager;
+import java.lang.reflect.Field;
 
 /**
- * A template representing a Game {@link Entity} component.
+ * A template representing a Game {@link Entity} housing data objects.
  *
- * @param <I> the input type to the game loop pattern
  * @author pavl_g
  */
-public interface Component<I> {
+@SuppressWarnings("unchecked")
+public interface Component {
 
     /**
-     * Retrieves the entity that encapsulates this component.
+     * Retrieves all the declared fields in an array of {@link Field}.
      *
-     * <p>
-     * Override this method and use the DI pattern to link the component
-     * entity here.
-     * </p>
-     *
-     * @return the entity encapsulating this game component
+     * @return the data fields of this component wrapped in an array of Field pointers
      */
-    Entity<I> getEntity();
+    default Field[] getData() {
+        return getClass().getDeclaredFields();
+    }
 
     /**
-     * Updates this game component with an abstract input.
+     * Retrieves a data field by its name in a field pointer.
      *
-     * <p>
-     * Override this method and use the Game loop pattern to link the
-     * original game states to this component via the game {@link Entity}s.
-     * </p>
-     *
-     * <p>
-     * This method is dispatched by {@link Entity#update(Object)}, never call
-     * it manually!
-     * </p>
-     *
-     * @param input an input to perform the update on
+     * @param <T> the type of the component object data in memory
+     * @param fieldName the field name in the component class
+     * @return a reference object to the required field
+     * @throws NoSuchFieldException if the submitted field is not found in this component
+     * @throws IllegalAccessException if the field is inaccessible by means of private access modifiers
      */
-    void update(I input);
+    default <T> T getData(String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        return (T) getClass().getDeclaredField(fieldName).get(this);
+    }
 
     /**
      * Retrieves the identifier (id) of this game component, the identifier is
@@ -85,14 +79,14 @@ public interface Component<I> {
      * a constant long value to accommodate larger number of game entity components.
      */
     public static final class Id extends Number {
-        private final long id;
+        private final int id;
 
         /**
          * Instantiates a game entity component identifier object.
          *
          * @param id the identifier in long format
          */
-        public Id(final long id) {
+        public Id(final int id) {
             this.id = id;
         }
 
@@ -102,26 +96,26 @@ public interface Component<I> {
          * @return the component identifier in longs
          */
         @Override
-        public long longValue() {
+        public int intValue() {
             return id;
         }
 
         @Deprecated
         @Override
-        public int intValue() {
-            throw new UnsupportedOperationException("Deprecated call, use `Component.Id#getId()`");
+        public long longValue() {
+            throw new UnsupportedOperationException("Deprecated call, use \"Component.Id#intValue()\"");
         }
 
         @Deprecated
         @Override
         public float floatValue() {
-            throw new UnsupportedOperationException("Deprecated call, use `Component.Id#getId()`");
+            throw new UnsupportedOperationException("Deprecated call, use \"Component.Id#intValue()\"");
         }
 
         @Deprecated
         @Override
         public double doubleValue() {
-            throw new UnsupportedOperationException("Deprecated call, use `Component.Id#getId()`");
+            throw new UnsupportedOperationException("Deprecated call, use \"Component.Id#intValue()\"");
         }
     }
 }

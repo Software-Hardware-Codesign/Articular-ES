@@ -29,8 +29,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * Provides the core Game Entity interface {@link articular.core.Entity}
- * and its base implementation {@link articular.util.StandardGameEntity}.
- */
 package articular.core;
+
+import articular.core.component.Component;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Defines aliases for types.
+ *
+ * @author pavl_g
+ */
+public final class Type {
+    public static class SystemMap extends ConcurrentHashMap<String, EntityMap> {
+    }
+
+    public static class EntityMap extends ConcurrentHashMap<Number, ComponentMap> {
+    }
+
+    public static class ComponentMap extends ConcurrentHashMap<Number, Component> {
+    }
+}
+
+
